@@ -16,7 +16,7 @@
 // Setup MPU6050
 
 #define MPU6050_ADDR 0xD0
-const uint16_t i2c_timeout = 100;
+const uint16_t i2c_timeout = 1000;
 const double Accel_Z_corrector = 14418.0;
 uint32_t timer;
 float yaw_angle = 0;
@@ -35,10 +35,10 @@ Kalman_t KalmanZ = {
     .Q_bias = 0.003f,
     .R_measure = 0.03f,
 };
-
+uint8_t check;
 uint8_t MPU6050_Init(I2C_HandleTypeDef *I2Cx)
 {
-    uint8_t check;
+//    uint8_t check;
     uint8_t Data;
 
     // check device ID WHO_AM_I

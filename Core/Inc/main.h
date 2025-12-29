@@ -65,6 +65,10 @@ void Error_Handler(void);
 #define IN2_GPIO_Port GPIOA
 #define STBY_Pin GPIO_PIN_4
 #define STBY_GPIO_Port GPIOA
+#define IN3_Pin GPIO_PIN_5
+#define IN3_GPIO_Port GPIOA
+#define IN4_Pin GPIO_PIN_6
+#define IN4_GPIO_Port GPIOA
 
 /* USER CODE BEGIN Private defines */
 

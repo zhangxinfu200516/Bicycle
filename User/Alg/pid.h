@@ -1,8 +1,7 @@
 #ifndef PID_H
 #define PID_H
 
-typedef struct PID_Cale
-{
+typedef struct {
     float kp;
     float ki;
     float kd;
@@ -13,9 +12,10 @@ typedef struct PID_Cale
     float Out;
     float D_t;
     float Integral_Error;
-};
-extern void Init(struct PID_Cale * pid,float __K_P, float __K_I, float __K_D,float __I_Output_Max, float __Out_Max,float __D_T);
-extern float TIM_Adjust_PeriodElapsedCallback(struct PID_Cale *pid, float Target, float Now);
+} PID_Cale;
 
+extern void PID_Cale_Init(PID_Cale * pid,float __K_P, float __K_I, float __K_D,float __I_Output_Max, float __Out_Max,float __D_T);
+extern float PID_Cale_TIM_Adjust_PeriodElapsedCallback(PID_Cale *pid, float Target, float Now);
+extern void Math_Constrain(float *value, float min, float max);
 
 #endif // !PID_H

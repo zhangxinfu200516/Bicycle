@@ -32,6 +32,7 @@
 #include "stdio.h"
 #include "string.h"
 #include <stdbool.h>
+#include "task.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -63,6 +64,7 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+#ifdef OLD
 MPU6050_t mpu6050;
 char msg[64];
 int num = 1;
@@ -91,6 +93,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
         __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, set_pwm);
     }
 }
+#endif
 /* USER CODE END 0 */
 
 /**
@@ -128,25 +131,33 @@ int main(void)
   MX_USART1_UART_Init();
   MX_TIM1_Init();
   MX_TIM2_Init();
+  MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
 	//OLED_Init();
-  HAL_TIM_Base_Start_IT(&htim1);
-  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
-  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_2);
+  #ifdef NEW
+  Task_Init();
+  #endif
+  #ifdef OLD
 	while(MPU6050_Init(&hi2c1))
 	{
 		HAL_GPIO_TogglePin(LED_GPIO_Port,LED_Pin);
 		HAL_Delay(499);
 	}
 	HAL_Delay(999);
+  HAL_TIM_Base_Start_IT(&htim1);
+  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
+  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_2);
   init_finished = 1;
+  #endif
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+    #ifdef OLD
 		MPU6050_Read_All(&hi2c1,&mpu6050);
+    #endif
 	  #ifdef oled
     OLED_NewFrame();
 		OLED_PrintString(45,2,"MENU!",&font15x15,OLED_COLOR_NORMAL);
@@ -161,6 +172,9 @@ int main(void)
 		sprintf(msg,"%d,%d,%d\n",(int)mpu6050.KalmanAngleX,(int)mpu6050.KalmanAngleY,(int)mpu6050.KalmanAngleZ);
 		HAL_UART_Transmit_DMA(&huart1,(uint8_t*)msg,strlen(msg));
 		#endif
+    #ifdef NEW
+    Task_Loop();
+    #endif
 		//HAL_Delay(1);
 		
     /* USER CODE END WHILE */

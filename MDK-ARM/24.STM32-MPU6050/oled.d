@@ -33,5 +33,5 @@
 24.stm32-mpu6050\oled.o: ..\BSP\font.h
 24.stm32-mpu6050\oled.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 24.stm32-mpu6050\oled.o: ../Core/Inc/i2c.h
-24.stm32-mpu6050\oled.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
+24.stm32-mpu6050\oled.o: ../User/Alg/math.h
 24.stm32-mpu6050\oled.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h

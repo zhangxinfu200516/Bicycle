@@ -41,3 +41,4 @@
 24.stm32-mpu6050\main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 24.stm32-mpu6050\main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 24.stm32-mpu6050\main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
+24.stm32-mpu6050\main.o: ../User/Task/task.h

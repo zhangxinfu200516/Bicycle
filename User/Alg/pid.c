@@ -32,8 +32,13 @@ void Math_Constrain(float *value, float min, float max)
  * @param __Out_Max 输出限幅
  * @param __D_T 时间片长度
  */
-void Init(struct PID_Cale * pid,float __K_P, float __K_I, float __K_D,float __I_Output_Max, float __Out_Max,float __D_T)
+void PID_Cale_Init(PID_Cale * pid,float __K_P, float __K_I, float __K_D,float __I_Output_Max, float __Out_Max,float __D_T)
 {
+    // if (pid == NULL)
+    // {
+    //     // 应该添加错误处理
+    //     return;
+    // }
    pid->kp = __K_P;
    pid->ki = __K_I;
    pid->kd = __K_D;
@@ -47,7 +52,7 @@ void Init(struct PID_Cale * pid,float __K_P, float __K_I, float __K_D,float __I_
  *
  * @return float 输出值
  */
-float TIM_Adjust_PeriodElapsedCallback(struct PID_Cale *pid, float Target, float Now)
+float PID_Cale_TIM_Adjust_PeriodElapsedCallback(PID_Cale *pid, float Target, float Now)
 {
     // P输出
     float p_out = 0.0f;

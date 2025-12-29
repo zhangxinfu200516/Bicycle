@@ -30,7 +30,7 @@
 "24.stm32-mpu6050\bluetooth.o"
 "24.stm32-mpu6050\pid.o"
 "24.stm32-mpu6050\task.o"
---strict --scatter "24.STM32-MPU6050\24.sct"
+--strict --scatter "24.STM32-MPU6050\STM32-MPU6050.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
---list "24.map" -o 24.STM32-MPU6050\24.STM32-MPU6050
+--list "STM32-MPU6050.map" -o 24.STM32-MPU6050\STM32-MPU6050.axf

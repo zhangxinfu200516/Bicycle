@@ -59,6 +59,7 @@ virtualFolder:
         - path: ../BSP/font.c
         - path: ../BSP/mpu6050.c
         - path: ../BSP/OLED.c
+        - path: ../BSP/BlueTooth.c
       folders: []
     - name: Alg
       files:
