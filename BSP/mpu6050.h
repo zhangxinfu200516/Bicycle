@@ -53,3 +53,7 @@ void MPU6050_Read_Temp(I2C_HandleTypeDef *I2Cx, MPU6050_t *DataStruct);
 void MPU6050_Read_All(I2C_HandleTypeDef *I2Cx, MPU6050_t *DataStruct);
 
 double Kalman_getAngle(Kalman_t *Kalman, double newAngle, double newRate, double dt);
+
+extern uint16_t i2c_timeout;
+
+void Mpu6050_Calculate_PeriodElapsedCallback(I2C_HandleTypeDef *I2Cx, MPU6050_t *DataStruct);

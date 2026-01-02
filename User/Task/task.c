@@ -13,7 +13,7 @@ MPU6050_t mpu6050;
 PID_Cale pid_roll;
 PID_Cale pid_windmill;
 float Servo_angle_output = 90.0f,Wheel_pwm = 0.0f,motor2_pwm = 0.0f;
-float Servo_angle_Zero = -0.0f;
+float Servo_angle_Zero = 1.5f;
 float Wheel_Gy_K = 0.1f;
 //声明函数区域
 void Control_Motor(int16_t Pwm,GPIO_PinState _Enable_STBY_Pin);
@@ -35,13 +35,17 @@ void Task_Init()
     while(MPU6050_Init(&hi2c1))
 	{
 		HAL_GPIO_TogglePin(LED_GPIO_Port,LED_Pin);
+        if(i2c_timeout == 1000)
+            i2c_timeout = 2000;
+        else
+            i2c_timeout = 1000;
 		HAL_Delay(499);
 	}
     
 	HAL_Delay(999); 
     //pid初始化
     PID_Cale_Init(&pid_roll,1.0f,0.8f,0.0f,5.0f,10.0f,0.002f);
-    PID_Cale_Init(&pid_windmill,800.0f,0.8f,0.0f,100.0f,10000.0f,0.002f);
+    PID_Cale_Init(&pid_windmill,5000.0f,500.0f,0.0f,5000.0f,10000.0f,0.002f);
     init_finished = 1;
 }
 void Task_Loop()
@@ -56,6 +60,7 @@ void Task_Loop()
         HAL_UARTEx_ReceiveToIdle_DMA(&huart1, Bluetooth_RxData, Bluetooth_length);
     }
 }
+float tmp = 0.0f;
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
     //判断程序初始化完成
@@ -68,7 +73,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
     if (htim->Instance == TIM1)
     {
         // 读取MPU6050数据
-        MPU6050_Read_All(&hi2c1, &mpu6050);
+        Mpu6050_Calculate_PeriodElapsedCallback(&hi2c1, &mpu6050);
         // 蓝牙按键数据处理
         Key_Scan();
         //PID闭环控制车体倾斜角度
@@ -80,28 +85,32 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
             mod2 = 0;
             //控制风车
             motor2_pwm = PID_Cale_TIM_Adjust_PeriodElapsedCallback(&pid_windmill,Servo_angle_Zero,mpu6050.KalmanAngleX);
+            if(((pid_windmill.Target - pid_windmill.Now) > 30.0f )|| ((pid_windmill.Target - pid_windmill.Now) < -30.0f ))
+            {
+                motor2_pwm = 0.0f;
+            }
             // 计算舵机角度
             Servo_angle_output = 90.0f + PID_Cale_TIM_Adjust_PeriodElapsedCallback(&pid_roll,Servo_angle_Zero,mpu6050.KalmanAngleX) - Wheel_Gy_K * mpu6050.Gx;
             if (PorcessData.Key[10] == Key_Status_PRESSED)
             {
-                Servo_angle_output = 90.0f;
-                set_pwm = (int16_t)(500.0f + Servo_angle_output / 180.0f * (2500.0f - 500.0f));
+                //Servo_angle_output = 85.0f;                    
             }
             else
             {
                 Servo_angle_output = 90.0f;
                 motor2_pwm = 0.0f;
             }
+            set_pwm = (int16_t)(500.0f + Servo_angle_output / 180.0f * (2500.0f - 500.0f));
             __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, set_pwm);
-             Control_Motor2(motor2_pwm,GPIO_PIN_SET);
+            Control_Motor2(motor2_pwm, GPIO_PIN_SET);
+            // 控制电驱
+            Wheel_pwm = (int16_t)(PorcessData.Remote_Left_X * 10000.0f);
+            if (PorcessData.Key[11] == Key_Status_FREE)
+                Wheel_pwm = 0;
+            else if (PorcessData.Key[11] == Key_Status_PRESSED)
+                Wheel_pwm = 14000;
+            Control_Motor(Wheel_pwm, GPIO_PIN_SET);
         }
-        // 控制电驱
-        Wheel_pwm = (int16_t)(PorcessData.Remote_Left_X * 10000.0f);
-        if(PorcessData.Key[11] == Key_Status_FREE)
-            Wheel_pwm = 0;
-        else if(PorcessData.Key[11] == Key_Status_PRESSED)
-            Wheel_pwm = 12000;
-        Control_Motor(Wheel_pwm ,GPIO_PIN_SET);
     }
 }
 void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
