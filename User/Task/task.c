@@ -13,7 +13,7 @@ bool init_finished = 0;
 MPU6050_t mpu6050;
 PID_Cale pid_roll;
 PID_Cale pid_windmill;
-float Servo_angle_output = 93.0f,Wheel_pwm = 14000.0f,motor2_pwm = 0.0f;
+float Servo_angle_output = 93.0f,Wheel_pwm = 18000.0f,motor2_pwm = 0.0f;
 float Servo_angle_Zero = 0.0f;
 float Wheel_Gy_K = 0.1f;
 //建模区域
@@ -192,11 +192,11 @@ void Control_Motor2(int16_t Pwm,GPIO_PinState _Enable_STBY_Pin)
 void Balance_Init()
 {
     balance_data.balance_angle = 0;
-    balance_data.kp = 0.06;
+    balance_data.kp = 0.045;
     balance_data.kd = 0.001;
     balance_data.L=0.12;
     balance_data.Lm=0.04;
-    balance_data.V=0.3625;
+    balance_data.V=0.3;//0.3625;
     balance_data.d_angle = 0;
     balance_data.ax = 0;
     balance_data.angle = 0;
