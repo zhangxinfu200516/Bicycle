@@ -37,3 +37,9 @@
 24.stm32-mpu6050\task.o: ../User/Alg/pid.h
 24.stm32-mpu6050\task.o: ../BSP/BlueTooth.h
 24.stm32-mpu6050\task.o: ../Core/Inc/usart.h
+24.stm32-mpu6050\task.o: ../User/Alg/drv_math.h
+24.stm32-mpu6050\task.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\limits.h
+24.stm32-mpu6050\task.o: ../Middlewares/ST/ARM/DSP/Inc/arm_math.h
+24.stm32-mpu6050\task.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+24.stm32-mpu6050\task.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
+24.stm32-mpu6050\task.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\float.h

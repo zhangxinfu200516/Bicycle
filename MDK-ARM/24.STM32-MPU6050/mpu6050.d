@@ -1,7 +1,14 @@
 24.stm32-mpu6050\mpu6050.o: ..\BSP\mpu6050.c
-24.stm32-mpu6050\mpu6050.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
-24.stm32-mpu6050\mpu6050.o: ..\BSP\mpu6050.h
+24.stm32-mpu6050\mpu6050.o: ../User/Alg/drv_math.h
 24.stm32-mpu6050\mpu6050.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+24.stm32-mpu6050\mpu6050.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\limits.h
+24.stm32-mpu6050\mpu6050.o: ../Middlewares/ST/ARM/DSP/Inc/arm_math.h
+24.stm32-mpu6050\mpu6050.o: ../Drivers/CMSIS/Include/cmsis_compiler.h
+24.stm32-mpu6050\mpu6050.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
+24.stm32-mpu6050\mpu6050.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+24.stm32-mpu6050\mpu6050.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
+24.stm32-mpu6050\mpu6050.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\float.h
+24.stm32-mpu6050\mpu6050.o: ..\BSP\mpu6050.h
 24.stm32-mpu6050\mpu6050.o: ../Core/Inc/i2c.h
 24.stm32-mpu6050\mpu6050.o: ../Core/Inc/main.h
 24.stm32-mpu6050\mpu6050.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h
@@ -12,8 +19,6 @@
 24.stm32-mpu6050\mpu6050.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h
 24.stm32-mpu6050\mpu6050.o: ../Drivers/CMSIS/Include/core_cm3.h
 24.stm32-mpu6050\mpu6050.o: ../Drivers/CMSIS/Include/cmsis_version.h
-24.stm32-mpu6050\mpu6050.o: ../Drivers/CMSIS/Include/cmsis_compiler.h
-24.stm32-mpu6050\mpu6050.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
 24.stm32-mpu6050\mpu6050.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h
 24.stm32-mpu6050\mpu6050.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h
 24.stm32-mpu6050\mpu6050.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h

@@ -29,7 +29,9 @@
 "24.stm32-mpu6050\oled.o"
 "24.stm32-mpu6050\bluetooth.o"
 "24.stm32-mpu6050\pid.o"
+"24.stm32-mpu6050\drv_math.o"
 "24.stm32-mpu6050\task.o"
+"..\Middlewares\ST\ARM\DSP\Lib\arm_cortexM3l_math.lib"
 --strict --scatter "24.STM32-MPU6050\STM32-MPU6050.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

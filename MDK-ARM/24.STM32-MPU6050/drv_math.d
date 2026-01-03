@@ -1,0 +1,10 @@
+24.stm32-mpu6050\drv_math.o: ..\User\Alg\drv_math.c
+24.stm32-mpu6050\drv_math.o: ..\User\Alg\drv_math.h
+24.stm32-mpu6050\drv_math.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+24.stm32-mpu6050\drv_math.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\limits.h
+24.stm32-mpu6050\drv_math.o: ../Middlewares/ST/ARM/DSP/Inc/arm_math.h
+24.stm32-mpu6050\drv_math.o: ../Drivers/CMSIS/Include/cmsis_compiler.h
+24.stm32-mpu6050\drv_math.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
+24.stm32-mpu6050\drv_math.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+24.stm32-mpu6050\drv_math.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
+24.stm32-mpu6050\drv_math.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\float.h
