@@ -206,20 +206,42 @@ void Balance_Init()
 double temp;
 void Balance_Task()
 {
-    //赋值区域
-    //balance_data.balance_angle = Servo_angle_Zero;
+    // 将MPU6050卡尔曼滤波后的角度值赋给车体角度变量
+    // 注意：这里的angle_car实际是车体偏离垂直方向的角度
     balance_data.angle_car = mpu6050.KalmanAngleX;
-    //逻辑区域
+    //1. 计算角度偏差：目标平衡角度 - 当前实际角度
     balance_data.d_angle = balance_data.balance_angle - balance_data.angle_car;
-
+    // 2. 计算所需横向加速度（用于维持平衡） 
+    // 使用PD控制器：比例项(P) + 微分项(D)
+    // 比例项：角度偏差 * kp，产生恢复力
+    // 微分项：角速度 * kd，产生阻尼作用（抑制振荡）
+    // mpu6050.Gx是角速度（陀螺仪原始数据），57.2957795f是弧度转角度系数
     balance_data.ax = balance_data.kp*balance_data.d_angle - balance_data.kd * mpu6050.Gx * 57.2957795f;
+    // 3. 计算sin(转向角)的理论值
+    // 公式推导：根据运动学关系，横向加速度ax = V²/R，而R = Lm/tan(δ)
+    // temp = sin(φ)，其中φ是转向角
     temp = balance_data.ax/balance_data.V/balance_data.V*balance_data.Lm;
+    // 4. 对sin(转向角)进行限幅，保证其在[-1, 1]范围内
+    // 超过这个范围asin函数会返回NaN
     if(temp < -1) temp=-1;
     else if(temp > 1) temp=1;
+    // 5. 计算实际转向角度（方向盘角度）
+    // 第一步：asin(temp) 得到转向角φ的反正弦值
+    // 第二步：tan(φ) 得到转向角的正切值
+    // 第三步：(L/Lm)*tan(φ) 考虑几何比例关系
+    // 第四步：atan(...) 计算最终的方向盘角度
+    // 57.2957795f 将弧度转换为角度（180/π）
     balance_data.angle = atan((balance_data.L/balance_data.Lm)*tan(asin(temp)))*57.2957795f;
+    // 6. 将计算出的角度赋值给输出变量
     balance_data.output = balance_data.angle;
+    // 7. 对输出角度进行限幅处理
+    // 防止转向角度过大导致失控，limit_angle=20度
     if(balance_data.angle > limit_angle) balance_data.output = limit_angle;
     else if(balance_data.angle < -limit_angle) balance_data.output = -limit_angle;
+    //========== 执行器输出区域 ==========
+    // 1. 将平衡控制角度转换为舵机角度
+    // 93.0f是舵机中立点位置（对应前轮正前方）
+    // balance_data.output正值为右转，负值为左转
     Servo_angle_output = 93.0f + balance_data.output;
     int16_t set_pwm = (int16_t)(500.0f + Servo_angle_output / 180.0f * (2500.0f - 500.0f));
     __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, set_pwm);
